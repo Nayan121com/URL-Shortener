@@ -7,7 +7,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class UrlShortenerApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(UrlShortenerApplication.class, args);
+		URLShortenerController obj = new URLShortenerController();
+		obj.postURL("vsd");
+		//SpringApplication.run(UrlShortenerApplication.class, args);
 	}
 
 }

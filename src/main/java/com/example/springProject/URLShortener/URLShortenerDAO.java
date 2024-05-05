@@ -8,6 +8,9 @@ import org.springframework.stereotype.Repository;
 public class URLShortenerDAO {
 
     private JdbcTemplate DBObj;
+    public URLShortenerDAO(){
+        DBObj = new JdbcTemplate();
+    }
 
     public String getURL(String longURL){
         String query = "select shortURL from urlModel where longURL = ?";

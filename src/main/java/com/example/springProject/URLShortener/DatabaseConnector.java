@@ -16,9 +16,6 @@ public class DatabaseConnector {
         String url = dataSourceConfig.getUrl();
         String username = dataSourceConfig.getUsername();
         String password = dataSourceConfig.getPassword();
-        System.out.println(url);
-        System.out.println(username);
-        System.out.println(password);
     }
 }
 
