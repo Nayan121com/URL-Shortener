@@ -1,6 +1,7 @@
 package com.example.springProject.URLShortener;
 
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,40 +9,42 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-//@RestController
+import java.util.UUID;
+
+@RestController
 public class URLShortenerController {
+
     private URL url;
     private Base62Conversion base62Obj;
     private UniqueIDGenerator uniqueIDObj;
-    private URLShortenerDAO urlDAO;
+    @Autowired
+    private URLShortenerDAO daoObj;
 
     public URLShortenerController(){
         url = new URL();
         base62Obj = new Base62Conversion();
         uniqueIDObj = new UniqueIDGenerator();
-        urlDAO = new URLShortenerDAO();
+        daoObj = new URLShortenerDAO();
     }
 
-    @PostMapping(path = "/submit")
-    public void postURL( String x){
-        URL url = new URL();
-        String longURL = "www.google.com";
+    @PostMapping("/submit")
+    public ResponseEntity<URL> postURL(@RequestBody String longURL){
         url.setLongURL(longURL);
-        //Check if the URL present in the Database.
-        //If not present in the Database then Update the Database.
-        if(urlDAO.isLongURL(longURL)){
-            String shortURL = urlDAO.getURL(longURL);
-            System.out.println("Already Present -> " + shortURL);
-            url.setShortURL(shortURL);
+        URL fetchedURL = daoObj.fetch(url);
+        if(fetchedURL.getId() != null){
+            return new ResponseEntity<>(fetchedURL, HttpStatus.OK);
         }
         else{
+            Long id = System.currentTimeMillis();
             uniqueIDObj.setUniqueID();
-            System.out.println("ID -> " + uniqueIDObj.getUniqueID());
+            UUID uniqueID = uniqueIDObj.getUniqueID();
+            base62Obj.convertToBase62(uniqueID);
+            String base62Value = base62Obj.getBase62Value();
             base62Obj.convertToBase62(uniqueIDObj.getUniqueID());
-            System.out.println("base62 ->" + base62Obj.getBase62Value());
-            urlDAO.setURL(longURL, base62Obj.getBase62Value());
-            System.out.println("Short URL -> " + urlDAO.getURL(longURL));
+            url.setId(id);
+            url.setShortURL(base62Value);
+            daoObj.save(url);
+            return new ResponseEntity<>(url, HttpStatus.OK);
         }
-//        return ResponseEntity.status(HttpStatus.OK).body(url);
     }
 }
