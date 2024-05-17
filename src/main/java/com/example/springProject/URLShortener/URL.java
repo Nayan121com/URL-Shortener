@@ -39,7 +39,7 @@ public class URL {
     }
 
     public void setShortURL(String shortURL) {
-        this.shortURL = "www.shorturl.com/" + shortURL;
+        this.shortURL = shortURL;
     }
 
     @Override
