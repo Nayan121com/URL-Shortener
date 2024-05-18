@@ -1,4 +1,4 @@
-package com.example.springProject.URLShortener;
+package com.example.springProject.URLShortener.ErrorHandling;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

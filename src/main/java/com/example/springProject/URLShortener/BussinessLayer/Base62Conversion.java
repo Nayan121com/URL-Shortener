@@ -1,4 +1,4 @@
-package com.example.springProject.URLShortener;
+package com.example.springProject.URLShortener.BussinessLayer;
 
 import org.jetbrains.annotations.NotNull;
 

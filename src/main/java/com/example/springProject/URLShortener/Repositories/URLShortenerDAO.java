@@ -1,15 +1,14 @@
-package com.example.springProject.URLShortener;
+package com.example.springProject.URLShortener.Repositories;
 
-import jakarta.validation.constraints.Null;
+import com.example.springProject.URLShortener.ErrorHandling.ResponseInternalServerError;
+import com.example.springProject.URLShortener.Model.URL;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 

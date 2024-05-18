@@ -1,7 +1,13 @@
-package com.example.springProject.URLShortener;
+package com.example.springProject.URLShortener.Controller;
 
+import com.example.springProject.URLShortener.BussinessLayer.Base62Conversion;
+import com.example.springProject.URLShortener.BussinessLayer.UniqueIDGenerator;
+import com.example.springProject.URLShortener.ErrorHandling.ResponseURLNotFound;
+import com.example.springProject.URLShortener.Repositories.URLShortenerDAO;
+import com.example.springProject.URLShortener.Model.URL;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -58,10 +64,11 @@ public class URLShortenerController {
             if (fullUrl != null) {
                 // Ensure the URL is complete
                 if (!fullUrl.startsWith("http://") && !fullUrl.startsWith("https://")) {
-                    fullUrl = "http://" + fullUrl;
+                    fullUrl = "https://" + fullUrl;
                 }
                 // Redirect to the full URL
-                response.sendRedirect(fullUrl);
+                response.setStatus(HttpStatus.MOVED_PERMANENTLY.value());
+                response.setHeader("Location", fullUrl);
             }
         }
         catch (Exception e){

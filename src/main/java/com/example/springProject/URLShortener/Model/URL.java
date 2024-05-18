@@ -1,7 +1,6 @@
-package com.example.springProject.URLShortener;
+package com.example.springProject.URLShortener.Model;
 
 import lombok.Setter;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 @Component
