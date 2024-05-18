@@ -2,6 +2,7 @@ package com.example.springProject.URLShortener.Controller;
 
 import com.example.springProject.URLShortener.BussinessLayer.Base62Conversion;
 import com.example.springProject.URLShortener.BussinessLayer.UniqueIDGenerator;
+import com.example.springProject.URLShortener.ErrorHandling.ResponseInternalServerError;
 import com.example.springProject.URLShortener.ErrorHandling.ResponseURLNotFound;
 import com.example.springProject.URLShortener.Repositories.URLShortenerDAO;
 import com.example.springProject.URLShortener.Model.URL;
@@ -78,5 +79,20 @@ public class URLShortenerController {
             return null;
         }
     }
-
+    @DeleteMapping("/remove")
+    public ResponseEntity<Void> deleteURL(@RequestBody String longURL){
+        url.setLongURL(longURL);
+        URL fetchedURL = daoObj.fetch(url);
+        if(fetchedURL.getId() != null){
+            int rowAffected = daoObj.delete(url);
+            if(rowAffected>0)
+                return ResponseEntity.noContent().build();
+            else{
+                return ResponseEntity.notFound().build();
+            }
+        }
+        else{
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
